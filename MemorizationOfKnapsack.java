@@ -1,0 +1,40 @@
+public class MemorizationOfKnapsack {
+
+    static int knapsackRec(int W,int[]val,int[]wt,int n,int[][]memo){
+        if (n==0||W==0) {
+            return 0;
+        }
+        if (memo[n][W]!=-1) {
+            return memo[W][n];
+        }
+            int pick=0;
+        if (wt[n-1]<=W) {
+             pick=val[n-1]+knapsackRec(W-wt[n-1], val, wt, n-1, memo);
+        }
+        // don't pick nth item 
+        int notPick=knapsackRec(W, val, wt, n-1, memo);
+        
+        return memo[n][W]=Math.max(pick, notPick);
+    }
+    public static int Knapsack(int W,int[]val,int[] wt){
+             int n=val.length;
+
+             // memoization table to store the  results
+             int[][]memo=new int[n+1][W+1];
+
+             for(int i=0;i<=n;i++){
+                for(int j=0;j<=W;j++){
+                    memo[i][j]=-1;
+                }
+             }
+            return knapsackRec(W, val, wt, n, memo);
+
+
+    }
+    public static void main(String[] args) {
+        int W=7;
+        int val[]={15,14,10,45,30};
+        int wt[]={2,5,1,3,4};
+        System.out.println(Knapsack(W, val, wt));
+    }
+}
